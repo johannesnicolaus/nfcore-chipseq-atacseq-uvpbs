@@ -1,4 +1,5 @@
 # nfcore-chipseq-atacseq-uvpbs
+
 nf-core ATAC-seq and ChIP-seq pipeline template for IPR UV-PBS
 
 Written by Johannes Nicolaus Wibisana for the Laboratory for Cell Systems IPR
@@ -6,32 +7,39 @@ Written by Johannes Nicolaus Wibisana for the Laboratory for Cell Systems IPR
 This template repository can be used for the analysis of bulk ATAC-seq and ChIP-seq data, including steps from QC, trimming, alignment using BWA, peak calling using MACS2, up to differential peaks analysis.
 
 More info of the pipeline is available on: <br>
-- ChIP-seq: https://nf-co.re/chipseq/1.2.2
-- ATAC-seq: https://nf-co.re/atacseq/1.2.1
 
+- ChIP-seq: <https://nf-co.re/chipseq/1.2.2>
+- ATAC-seq: <https://nf-co.re/atacseq/1.2.1>
+
+Step-by-step tutorial is available at:<br>
+[Tutorial](https://github.com/johannesnicolaus/nfcore-rnaseq-uvpbs/wiki/Step-by-step-tutorial-on-running-nf-core-pipeline-on-the-UV-PBS-IPR-computing-cluster)
 
 # Prerequisites
+
 Nextflow must be installed, preferably using conda:
+
 ```shell
-$ conda install nextflow
+conda install nextflow
 ```
 
 To install miniconda:
-https://docs.conda.io/en/latest/miniconda.html
+<https://docs.conda.io/en/latest/miniconda.html>
 
 To download this repository to your local directory:
+
 ```shell
-$ git clone https://github.com/johannesnicolaus/nfcore-chipseq-atacseq-uvpbs.git
+git clone https://github.com/johannesnicolaus/nfcore-chipseq-atacseq-uvpbs.git
 ```
 
 # Usage
 
 ## Preparing your data for analysis
+
 - Place all the `fastq.gz` files inside the `raw_data` directory.
 
 ### ATAC-seq
-Please refer to https://nf-co.re/atacseq/1.2.1/usage for more details. All files must be specified by its absolute path (starts with `/user1/tanpaku/okada/USERNAME/`).
 
+Please refer to <https://nf-co.re/atacseq/1.2.1/usage> for more details. All files must be specified by its absolute path (starts with `/user1/tanpaku/okada/USERNAME/`).
 
 - Edit `samplesheet_atac.csv` within the `work` directory to include the following information at each column:
    1. `group`: The experimental condition (e.g. control, treatment)
@@ -40,7 +48,8 @@ Please refer to https://nf-co.re/atacseq/1.2.1/usage for more details. All files
    4. `fastq_2`: Read 2 (R2) containing gzipped fastq file, leave blank if single-end read only
 
 ### ChIP-seq
-Please refer to https://nf-co.re/atacseq/1.2.1/usage for more details. All files must be specified by its absolute path (starts with `/user1/tanpaku/okada/USERNAME/`).
+
+Please refer to <https://nf-co.re/atacseq/1.2.1/usage> for more details. All files must be specified by its absolute path (starts with `/user1/tanpaku/okada/USERNAME/`).
 
 ChIP-seq requires an input sample. For ChIP-seq experiments without input samples, while it is not recommended you can use the ATAC-seq pipeline, setting the parameters: `--mito_name false --skip_merge_replicates` (Credit to hpatel @ the nf-core slack #chipseq channel).
 
@@ -53,21 +62,25 @@ ChIP-seq requires an input sample. For ChIP-seq experiments without input sample
    6. `control`: Input data, should have the same identifier with `group`
 
 ## Running the pipeline
+
 To run the pipeline, navigate to the `work` directory and execute the following:
 
 ATAC-seq pipeline:
+
 ```shell
-$ qsub run_atac.sh
+qsub run_atac.sh
 ```
 
 ChIP-seq pipeline:
+
 ```shell
-$ qsub run_atac.sh
+qsub run_atac.sh
 ```
 
 To check progress:
+
 ```shell
-$ qstat
+qstat
 ```
 
 # Description of parameters
@@ -96,12 +109,12 @@ Sets the error and output log directory as the same directory as the `run.sh` sc
 Email for which the job status is sent to.
 
 ## Default parameters in the template script
+
 As most parameters are the same for both ChIP-seq and ATAC-seq, this section is combined for both.
 
 For detailed usage and parameters, please visit:
-ATAC-seq: https://nf-co.re/atacseq/1.2.1/parameters
-ChIP-seq: https://nf-co.re/chipseq/1.2.2/parameters
-
+ATAC-seq: <https://nf-co.re/atacseq/1.2.1/parameters>
+ChIP-seq: <https://nf-co.re/chipseq/1.2.2/parameters>
 
 - `-r x.x.x`<br>
 Specifies the version of the nf-core pipeline to ensure reproducibility, it is set to the newest (as of to 2022/2/17): `1.2.1` for ATAC-seq and `1.2.2` for ChIP-seq.
@@ -111,14 +124,14 @@ Specifies where the software required for the pipeline are downloaded from. As U
 
 - `--input samplesheet_xxxx.csv`<br>
 Specifies the sample sheet containing sample info. Templates are as follows:
-   - ATAC-seq: `samplesheet_atac.csv`
-   - ChIP-seq: `samplesheet_chip.csv`
+  - ATAC-seq: `samplesheet_atac.csv`
+  - ChIP-seq: `samplesheet_chip.csv`
 
 - `--genome GRCh38`<br>
 Uses the default GRCh38 from AWS igenomes. Use GRCm38 for mouse. The genome keys are available here:
-https://support.illumina.com/sequencing/sequencing_software/igenome.html
+<https://support.illumina.com/sequencing/sequencing_software/igenome.html>
 
--  `--single_end`<br>
+- `--single_end`<br>
 Delete or comment (using `#`) this line if the data is paired-end.
 
 - `--save_reference`<br>
@@ -131,27 +144,34 @@ Uses max CPU of 8, this depends on the queue where the job is run.
 Uses max memory of 256 GB, this also depends on the parameters set on the `#PBS` headers.
 
 ### Other additional optional parameters
+
 - `--narrow_peak`<br>
 Run MACS2 in narrow peak mode, this can be useful for transcription factor ChIP-seq analysis.
 
 ## Results
+
 Results will be available in the `results` directory, in which the quality check results are within the multiqc directory and the quantified transcripts are within the `bwa/mergedLibrary/macs/broadPeak` and the `bwa/mergedReplicate/macs/broadPeak` directory. Files for visualization include bigwig files which is within the `bwa/mergedLibrary/bigwig` and the `bwa/mergedReplicate/bigwig` directories as well as the IGV seesion inside the `igv` directory.
 
 Additionally, indexed reference file will be available in the `results` directory.
 
 Detailed information on the output is available on:
-- ATAC-seq: https://nf-co.re/atacseq/1.2.1/output
-- ChIP-seq: https://nf-co.re/chipseq/1.2.2/output
+
+- ATAC-seq: <https://nf-co.re/atacseq/1.2.1/output>
+- ChIP-seq: <https://nf-co.re/chipseq/1.2.2/output>
 
 # Notes
+
 ## Specifying previously built index file
+
 Use the parameter `--bwa_index` and specify the STAR reference directory (should be in results directory after the first run).
 
-## To resume job 
+## To resume job
+
 If somehow the job was aborted due to errors or any other problem, it is possible to continue from the last succesful checkpoint by addint the following parameter: <br>
 `-resume`
 
 ## Specifying cache for singularity images
+
 To prevent nf-core from downloading singularity containers on every run, add the following line to `~/.bash_profile`:
 
 ```shell
