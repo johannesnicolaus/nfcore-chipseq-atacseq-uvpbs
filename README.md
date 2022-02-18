@@ -30,7 +30,8 @@ $ git clone https://github.com/johannesnicolaus/nfcore-chipseq-atacseq-uvpbs.git
 - Place all the `fastq.gz` files inside the `raw_data` directory.
 
 ### ATAC-seq
-Please refer to https://nf-co.re/atacseq/1.2.1/usage for more details.
+Please refer to https://nf-co.re/atacseq/1.2.1/usage for more details. All files must be specified by its absolute path (starts with `/user1/tanpaku/okada/USERNAME/`).
+
 
 - Edit `samplesheet_atac.csv` within the `work` directory to include the following information at each column:
    1. `group`: The experimental condition (e.g. control, treatment)
@@ -39,7 +40,7 @@ Please refer to https://nf-co.re/atacseq/1.2.1/usage for more details.
    4. `fastq_2`: Read 2 (R2) containing gzipped fastq file, leave blank if single-end read only
 
 ### ChIP-seq
-Please refer to https://nf-co.re/atacseq/1.2.1/usage for more details. All files must be specified by its absolute path.
+Please refer to https://nf-co.re/atacseq/1.2.1/usage for more details. All files must be specified by its absolute path (starts with `/user1/tanpaku/okada/USERNAME/`).
 
 ChIP-seq requires an input sample. For ChIP-seq experiments without input samples, while it is not recommended you can use the ATAC-seq pipeline, setting the parameters: `--mito_name false --skip_merge_replicates` (Credit to hpatel @ the nf-core slack #chipseq channel).
 
