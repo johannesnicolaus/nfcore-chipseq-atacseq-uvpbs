@@ -10,7 +10,7 @@
 
 cd ${PBS_O_WORKDIR}
 
-source $HOME/apps/anaconda3/bin/activate
+#source $HOME/apps/anaconda3/bin/activate
 
 # for more info on settings: https://nf-co.re/chipseq/1.2.2
 nextflow run nf-core/chipseq \
