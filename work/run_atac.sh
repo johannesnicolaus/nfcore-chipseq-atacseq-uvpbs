@@ -10,7 +10,7 @@
 
 cd ${PBS_O_WORKDIR}
 
-source $HOME/apps/anaconda3/bin/activate
+#source $HOME/apps/anaconda3/bin/activate
 
 # for more info on settings: https://nf-co.re/atacseq/1.2.1
 nextflow run nf-core/atacseq \
